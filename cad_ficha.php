@@ -153,8 +153,18 @@ include("connect.php");
                     <textarea class="textarea" name="classificacao_aval"  placeholder="Place some text here" style="width: 50%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea> 
                      <br /><br />  <center><button type="submit" class="btn btn-primary">Adicionar</button></center><br/><hr />
                         </form>
+                        <?php
+                        if($_SESSION['Tipo'] == "A")
+                        {
+                            $si= "none";
+                        }
+                        else
+                        {
+                            $si="hidden";
+                        }
+                        ?>
                        <form action="concluir_ficha.php?q=<?php echo $_GET['id'];?>" method="post">  
-               <center><button type="submit" class="btn btn-success">Encerrar Ficha Ano</button></center><br/>
+                           <center><button type="submit" class="btn btn-success" style="visibility:<?php echo $si;?>">Encerrar Ficha Ano</button></center><br/>
                         </form>
         
         <!-- Main content -->
