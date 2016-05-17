@@ -57,6 +57,7 @@ include("connect.php");
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <table class="table table-bordered">
+                      <th></th>
                       <th><center>Nome Colaborador</center></th>
                       <th><center>Data Admiss&atilde;o</center></th>
                       <?php 
@@ -64,16 +65,17 @@ include("connect.php");
                        $id = mysqli_query($conn,$setor);
                       while($lib = mysqli_fetch_assoc($id))
                       {
-                      $sql = "SELECT * FROM tbl_colaborador WHERE tbl_setor_idSetor= ".$lib['Setor_idSetor'];
+                      $sql = "SELECT * FROM tbl_colaborador WHERE tbl_setor_idSetor= ".$lib['Setor_idSetor']. " AND Data_Demissao is NULL order by Nome";
                       $result = mysqli_query($conn, $sql);
                          echo "<tr>";
                       while($row = mysqli_fetch_assoc($result)) {
                           $data = explode("-",$row['Data_Admissao']);
                           $data = $data[2]."/".$data[1]."/".$data[0];
-                           echo "<td><center><a href='hist_colaborador.php?id=".$row['idColaborador']."'>".$row['Nome']."</a></center></td><td><center>".$data."</center></td>";
+                           echo "<td><center><a href='edit_colaborador.php?id=".$row['idColaborador']."' class='glyphicon glyphicon-pencil'></a></center></td><td><center><a href='hist_colaborador.php?id=".$row['idColaborador']."'>".$row['Nome']."</a></center></td><td><center>".$data."</center></td>";
+                          echo "</tr>";
                           }
                       }
-                      echo "</tr>";
+                      
                       ?>
                   </table>
                 </div><!-- /.box-body -->

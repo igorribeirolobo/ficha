@@ -111,6 +111,12 @@ if($_SESSION['ID'] == null)
                 <li><a href="lib_usuario.php"><i class="fa fa-circle-o"></i> Libera Usu&aacute;rio</a></li>
               </ul>
             </li>
+              <li style=display:<?php echo $hi; ?> class="treeview">
+                  <a href="arquivo.php">
+                       <i class="fa fa-files-o"></i>
+                <span>Arquivos</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
               <li>
               <a href="cad_ficha.php">
                 <i class="fa fa-th"></i> <span>Criar Avaliação</span> <i class="fa fa-angle-left pull-right"></i>

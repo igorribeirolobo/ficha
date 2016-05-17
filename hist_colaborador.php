@@ -54,9 +54,26 @@ include("connect.php");
                      <div class="box">
                 <div class="box-header with-border">
                     <center><h3 class="box-title">Hist&oacute;rico</h3></center>
+                <script type="text/javascript">
+                    function desligado(){
+                   var x = confirm("Tem certeza que deseja arquivar?");
+                        if(x == true)
+                            {
+                                window.location = "http://192.168.0.4/ficha/arquivar.php?id=<?php echo $_GET['id'];?>";
+                            }
+                    }
+                    function ativo(){
+                             var x = confirm("Tem certeza que deseja retornar o colaborador?");
+                        if(x == true)
+                            {
+                                window.location = "http://192.168.0.4/ficha/ativar.php?id=<?php echo $_GET['id'];?>";
+                            }
+                    }
+                    </script>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <table class="table table-bordered">
+                      <th></th>
                       <th>Nome Colaborador</th>
                       <th>Data Admiss&atilde;o</th>
                       <th>Data do Ultimo Evento</th>
@@ -68,11 +85,33 @@ include("connect.php");
                            $resulti = mysqli_query($conn, $sqli);
                           $data = explode("-",$row['Data_Admissao']);
                                while($rowa = mysqli_fetch_assoc($resulti)){
-                      echo "<tr><td><a href='visualiza_ficha.php?id=".$rowa['id_Ficha']."'>".$row['Nome']."</td><td>".$data[2]."/".$data[1]."/".$data[0]."</a></td><td>".$rowa['Periodo']."</td></tr>";
-                                      
+                      echo "<tr><td><center><a href='edit_ficha.php?id=".$rowa['id_Ficha']."' class='glyphicon glyphicon-pencil'></a></center></td><td><a href='visualiza_ficha.php?id=".$rowa['id_Ficha']."'>".$row['Nome']."</td><td>".$data[2]."/".$data[1]."/".$data[0]."</a></td><td>".$rowa['Periodo']."</td></tr>";
+                                       
                                }
+                          $bloq = $row['Data_Demissao']; 
                           }
-                      
+                     echo "<tr><td>";
+                      $hi = "none";
+                    if($_SESSION['Tipo'] != 'A')
+{
+    $hi = "disabled";
+    $title = "Você não tem permissao para esta ação!";
+}
+else
+{
+   if($bloq == '')
+                      {
+                          $hi = "none";
+                      }
+                      else
+                      {
+                          $hi = "disabled";
+                          $title = "Colaborador já foi arquivado!";
+                          echo "<center><input type='button' value='Ativar' onclick='ativo();'   class='btn btn-success'/></center><br />";
+                      }
+}
+                    
+                      echo "<center><input type='button' value='Arquivar' onclick='desligado();'   class='btn btn-danger ".$hi."' title='".$title."'/></center></td></tr>";
                       ?>
                   </table>
                 </div><!-- /.box-body -->

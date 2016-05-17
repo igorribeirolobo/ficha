@@ -51,119 +51,30 @@ include("connect.php");
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-              <div class="box">
-                <div class="box-header">
-                    <center><h2 class="box-title">Cadastrar Avaliação Funcional</h2></center><br />
-                    <div class="pull-right box-tools">
-                  </div><!-- /. tools -->
-                </div><!-- /.box-header -->
-                <div class="box-body pad"> 
-                    <?php
-                      if($_GET['id'] != NULL)
-                        {  
-                            $h = 'hidden';
-                        }
-                        else
-                        {  
-                            $h = 'none';
-                        }
-                    ?>
-                   <form action="sel_colaborador.php" method="get">
-                    <center><label>Colaborador.:</label>    <select name='id' class='form-control select2' style="width: 20%; visibility:<?php echo $h;?>">
-                        <?php 
+                     <div class="box">
+                <div class="box-header with-border">
+                             <?php 
                       $sql = "SELECT * FROM tbl_colaborador WHERE tbl_Usuario_id_Usuario = ".$_SESSION['ID'];
                       $result = mysqli_query($conn, $sql);
-                        echo "<option value''>Lista de Colaboradores cadastrados!</option>";
                       while($row = mysqli_fetch_assoc($result)) {
-                        echo "<option value='".$row['idColaborador']."'>".$row['Nome']."</option>";
-                      }
-                    echo "</select><br /><button style='visibility:".$h."' type='submit' class='btn btn-success'>OK</button></center><br />";
-                    ?>
-                        </form>
-                        <form action="inserir_elogio.php?id=<?php echo $_GET['id'];?>" method="post">    
-                    <center><h3>Pontos Positivos/Elogios</h3></center>
-                  <!-- tools box -->
-                   <div class="form-group">
-                    <label>Data:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="date" class="form-control" name="data_positivo" data-inputmask="'alias': 'dd/mm/yyyy'" style="width:12%;">
-                    </div><!-- /.input group -->
-                  <label>Relato:</label>
-                        <textarea class="textarea" name="relato_positivo"  placeholder="Place some text here" style="width: 50%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                        </div>
-                    <center><button type="submit" class="btn btn-primary" >Adicionar</button></center><br/>
-                  </form>
-                <div class="box-header">
-                    <form action="inserir_adv.php?id=<?php echo $_GET['id'];?>" method="post"> 
-                    <center><h3>Oportunidade de Melhoria/Orientações/Advertências</h3></center><br />
-                    <div class="pull-right box-tools">
-                  </div><!-- /. tools -->
+                           $nome = $row['Nome'];
+                           $id = $row['idColaborador'];
+                           $adm = $row['Data_Admissao'];      
+                               }
+                          
+                      ?>
+                    <center><h3 class="box-title"><b><?php echo $nome; ?></b></h3></center>
                 </div><!-- /.box-header -->
-                  <!-- tools box -->
-         <label>Data:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="date" class="form-control" name="data_adv" data-inputmask="'alias': 'dd/mm/yyyy'" style="width:12%;">
-                    </div><!-- /.input group -->
-                          <?php 
-                      $sql = "SELECT * FROM tbl_tipoadv";
-                      $result = mysqli_query($conn, $sql);
-                         echo "<label>Tipo Advertência.:</label><br /><select name='adv' class='form-control select2' style='width: 10%;'>";
-                      while($row = mysqli_fetch_assoc($result)) {
-                        echo "<option value='".$row['idl_tipoadv']."'>".$row['Descricao']."</option>";
-                      }
-                    echo "</select><br />";
-                    
-                    ?>
-                    <label>Relato.:</label>
-                    <textarea class="textarea" name="relato_adv"  placeholder="Place some text here" style="width: 50%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea><br /><br />
-                       <center><button type="submit" class="btn btn-primary">Adicionar</button></center><br/>
+                <div class="box-body">
+                   <form action="atualiza_colaborador.php?id=<?php echo $id;?>" method="post">
+                    <center><label>Nome.: </label> <input type="text" name="nome" value="<?php echo $nome;?>"/> <label> Data da Admissão.: </label> <input type="date" name="adm" value="<?php echo $adm; ?>"/></center><br />
+                <center><input type="submit" name="atualizar" class="btn btn-primary" value="Atualizar"/></center>
                     </form>
-                        <form action="inserir_falta.php?id=<?php echo $_GET['id'];?>" method="post"> 
-                     <div class="box-header">
-                    <center><h3>Atestados</h3></center><br />
-                    <div class="pull-right box-tools">
-                  </div><!-- /. tools -->
-                </div><!-- /.box-header -->
-                  <!-- tools box -->
-                    <label>Data.: </label><input type="date" name="Data_falta" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" style="width:12%;"/>
-                    <label>Nº Dias.: </label><input type="number" name="Dias_Falta" class="form-control" style="width:12%;"/>
-                    <label>Relato.:</label>
-                    <textarea class="textarea" name="relato_falta"  placeholder="Place some text here" style="width: 50%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea><br /><br /><center><button type="submit" class="btn btn-primary">Adicionar</button></center><br/>
-                        </form>
-                        <form action="inserir_aval.php?id=<?php echo $_GET['id'];?>" method="post"> 
-                            <div class="box-header">
-                    <center><h3>Avaliação de Desempenho</h3></center><br />
-                    <div class="pull-right box-tools">
-                  </div><!-- /. tools -->
-                </div><!-- /.box-header -->
-                  <!-- tools box -->
-                    <label>Data.: </label><input type="date" name="Data_aval" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" style="width:12%;"/><br />
-                    <label>Nota.: </label><input type="number" name="nota_aval" class="form-control" style="width:12%;"/>
-                    <label>Classificação.:</label>
-                     <textarea class="textarea" name="classificacao_aval"  placeholder="Place some text here" style="width: 50%; height: 100px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea> 
-                     <br /><br />  <center><button type="submit" class="btn btn-primary">Adicionar</button></center><br/><hr />
-                        </form>
-                        <?php
-                        if($_SESSION['Tipo'] == "A")
-                        {
-                            $si= "none";
-                        }
-                        else
-                        {
-                            $si="hidden";
-                        }
-                        ?>
-                       <form action="concluir_ficha.php?q=<?php echo $_GET['id'];?>" method="post">  
-                           <center><button type="submit" class="btn btn-success" style="visibility:<?php echo $si;?>">Encerrar Ficha Ano</button></center><br/>
-                        </form>
-        
+</div><!-- /.box-body -->
+              </div><!-- /.box -->
+
         <!-- Main content -->
+      
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
